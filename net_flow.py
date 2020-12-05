@@ -3,13 +3,14 @@
 #
 # Copyrigth @ 2020 , Inc
 
-import psutil, time
-import urllib
+import psutil, time, json
 
 import log
+from http_sync import HttpRequests
 
 class NetFlow(object):
-  def __init__(self, uuid, interval=60):
+  _url = "http://132.232.94.178/api/gold-digger/agent/report_net_flow"
+  def __init__(self, uuid, interval=5*60):
     self.recv = {}
     self.sent = {}
     self.interval = interval
@@ -26,8 +27,9 @@ class NetFlow(object):
     return recv, sent
 
   def report(self, payload):
-    #urllib.request.urlopen()
-    log.logger.info("report need to dev")
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    response = HttpRequests.post(self._url, json.dumps(payload), headers)
+    log.logger.info(response)
 
   def on_timer(self):
     now = time.time()

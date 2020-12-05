@@ -6,8 +6,18 @@
 """logging config
 """
 
-import logging
+import logging, os
 import logging.config
+
+_log_path_dir = os.getcwd() + "/logs/"
+_log_path = os.getcwd() + "/logs/agent.log"
+
+try:
+  if not os.path.exists(_log_path_dir):
+    os.makedirs(_log_path_dir)
+except Exception as e:
+  pass
+
 
 _log_config = {
   "version": 1,
@@ -32,7 +42,7 @@ _log_config = {
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "full",
-      "filename": "./logs/agent.log",
+      "filename": _log_path,
       "interval": 1,
       "backupCount": 7,
       "when": "D",

@@ -19,7 +19,14 @@ from net_flow import NetFlow
 from daemon import Daemon
 
 _u_id = uuid.uuid1()
+_ppp_config_dir = os.getcwd() + "/conf/"
 _ppp_config_path = os.getcwd() + "/conf/ppp_configs"
+
+try:
+  if not os.path.exists(_ppp_config_dir):
+    os.makedirs(_ppp_config_dir)
+except Exception as e:
+  pass
 
 def version():
   print("{}".format(__version__.__version__))
@@ -53,11 +60,18 @@ class AgentMonitor(Daemon):
     pppoe_th = threading.Thread(target=pppoe_run)
     pppoe_th.start()
     # net flow
+
     net_flow_th = threading.Thread(target=net_flow_run)
     net_flow_th.start()
 
     while True:
       agent_api.load_ppp_config(_u_id, _ppp_config_path)
+      if not pppoe_th.is_alive():
+        log.logger("pppoe thread not alive. restart now.")
+
+      if not net_flow_th.is_alive():
+        log.logger("net_flow thread not alive. restart now.")
+
       time.sleep(20*60)
 
 _agent_pid = os.getcwd() + "/agent-monitor.pid"
