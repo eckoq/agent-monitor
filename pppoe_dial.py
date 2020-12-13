@@ -432,8 +432,8 @@ class PPPoE(Interface, ShellCmd):
         continue
       else:
         cmd = ("cat {passwd_file}| grep -v {user} > {passwd_file}.bak "
-            "& echo '{user} * {passwd}' >> {passwd_file}.bak "
-            "& mv {passwd_file}.bak {passwd_file}").format(passwd_file=passwd_file,
+            "&& echo '{user} * {passwd}' >> {passwd_file}.bak "
+            "&& mv {passwd_file}.bak {passwd_file}").format(passwd_file=passwd_file,
                                                             passwd=self.p_passwd, user=self.p_user)
         self.run_shell(cmd)
 
@@ -518,7 +518,7 @@ class PPPoE(Interface, ShellCmd):
 
   def create_ppp_interface(self):
     # kill exist pppoe proccess
-    cmd = "ps -ef |grep {} |grep -v grep  |awk '{{print $2}}' |xargs kill -9".format(self.p_macvlan)
+    cmd = "ps -ef |grep {} |grep -v grep  |awk '{{print $2}}' |xargs kill -9".format(self.p_ppp_name)
     self.run_shell(cmd)
 
     cmd = "{} {}".format(self._pppoe_connect, self.config.file_name)
