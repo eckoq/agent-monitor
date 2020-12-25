@@ -20,7 +20,7 @@ class HttpRequests(object):
       return {"code": -1000, "msg": "connect timeout"}
     except requests.exceptions.ConnectionError:
       return {"code": -1001, "msg":"connect error"}
-    except HTTPException as error_msg:
+    except Exception as error_msg:
       return {"code": -1002, "msg": str(error_msg)}
 
   @staticmethod
@@ -41,6 +41,6 @@ class HttpRequests(object):
       return {"code": 0, "msg":"", "api_response": response_json}
     except requests.exceptions.ConnectionError:
       return {"code": -1001, "msg":"connect error"}
-    except HTTPException as error_msg:
+    except Exception as error_msg:
       return {"code": -1002, "msg": str(error_msg)}
 

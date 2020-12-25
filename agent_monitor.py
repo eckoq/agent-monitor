@@ -89,11 +89,11 @@ class AgentMonitor(Daemon):
     while True:
       agent_api.load_ppp_config(_u_id, _ppp_config_path)
       if _pppoe_flag and not pppoe_th.is_alive():
-        log.logger("pppoe thread not alive. restart now.")
+        log.logger.info("pppoe thread not alive. restart now.")
         pppoe_th.start()
 
       if _net_flow_flag and not net_flow_th.is_alive():
-        log.logger("net_flow thread not alive. restart now.")
+        log.logger.info("net_flow thread not alive. restart now.")
         net_flow_th.start()
 
       time.sleep(20*60)
