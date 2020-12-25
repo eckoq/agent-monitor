@@ -99,7 +99,9 @@ class AgentMonitor(Daemon):
       time.sleep(20*60)
 
 _agent_pid = os.getcwd() + "/agent-monitor.pid"
-_agent = AgentMonitor(_agent_pid)
+_agent_stdout = os.getcwd() + "/agent-monitor.stdout"
+_agent_stderr = os.getcwd() + "/agent-monitor.stderr"
+_agent = AgentMonitor(_agent_pid, stdout=_agent_stdout, stderr=_agent_stderr)
 
 if __name__ == "__main__":
   parser = OptionParser()
