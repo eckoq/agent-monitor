@@ -74,29 +74,35 @@ def handle_cmd(cmd):
     print("agent-monitor: invalid option: '-c {}'".format(cmd))
     sys.exit(0)
 
-class AgentMonitor(Daemon):
-  def run(self):
-    # pppoe dial
-    if _pppoe_flag:
-      pppoe_th = threading.Thread(target=pppoe_run)
+#
+# run run run
+#
+def agent_run():
+  # pppoe dial
+  if _pppoe_flag:
+    pppoe_th = threading.Thread(target=pppoe_run)
+    pppoe_th.start()
+
+  # net flow
+  if _net_flow_flag:
+    net_flow_th = threading.Thread(target=net_flow_run)
+    net_flow_th.start()
+
+  while True:
+    agent_api.load_ppp_config(_u_id, _ppp_config_path)
+    if _pppoe_flag and not pppoe_th.is_alive():
+      log.logger.info("pppoe thread not alive. restart now.")
       pppoe_th.start()
 
-    # net flow
-    if _net_flow_flag:
-      net_flow_th = threading.Thread(target=net_flow_run)
+    if _net_flow_flag and not net_flow_th.is_alive():
+      log.logger.info("net_flow thread not alive. restart now.")
       net_flow_th.start()
 
-    while True:
-      agent_api.load_ppp_config(_u_id, _ppp_config_path)
-      if _pppoe_flag and not pppoe_th.is_alive():
-        log.logger.info("pppoe thread not alive. restart now.")
-        pppoe_th.start()
+    time.sleep(20*60)
 
-      if _net_flow_flag and not net_flow_th.is_alive():
-        log.logger.info("net_flow thread not alive. restart now.")
-        net_flow_th.start()
-
-      time.sleep(20*60)
+class AgentMonitor(Daemon):
+  def run(self):
+    agent_run()
 
 _agent_pid = os.getcwd() + "/agent-monitor.pid"
 _agent_stdout = os.getcwd() + "/agent-monitor.stdout"
@@ -118,3 +124,5 @@ if __name__ == "__main__":
     handle_cmd(options.cmd)
   if options.signal:
     handle_signal(options.signal)
+  else:
+    agent_run()
