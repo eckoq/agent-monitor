@@ -25,6 +25,7 @@ class HttpRequests(object):
 
   @staticmethod
   def post(url, params=None, headers=None, timeout=60, error_key=None):
+    response_json = ""
     try:
       response = requests.post(url=url, data=params, headers=headers, timeout=60)
       status_code = response.status_code
