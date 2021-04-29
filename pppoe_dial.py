@@ -398,6 +398,7 @@ class PPPoE(Interface, ShellCmd):
     self.config.set_key("USER", "{}".format(self.p_user))
     self.config.set_key("PEERDNS", "no")
     self.config.set_key("DEMAND", "no")
+    self.config.set_key("LINUX_PLUGIN", "rp-pppoe.so")
     self.config.set_key("METRIC", "8")
     self.config.dumps()
 

@@ -1,0 +1,80 @@
+[101]
+ppp_id = 101
+ppp_addr = 50:51:52:53:00:00
+ppp_user = 62212937512
+ppp_passwd = 135246
+ppp_vlan_id = 101
+ppp_vlan_addr = 50:51:52:53:54:a0
+ppp_vlan_parent = em1
+[102]
+ppp_id = 102
+ppp_addr = 50:51:52:53:00:01
+ppp_user = 62212938305
+ppp_passwd = 135246
+ppp_vlan_id = 102
+ppp_vlan_addr = 50:51:52:53:54:a1
+ppp_vlan_parent = em1
+[103]
+ppp_id = 103
+ppp_addr = 50:51:52:53:00:03
+ppp_user = 62212938404
+ppp_passwd = 135246
+ppp_vlan_id = 103
+ppp_vlan_addr = 50:51:52:53:54:a3
+ppp_vlan_parent = em1
+[104]
+ppp_id = 104
+ppp_addr = 50:51:52:53:00:04
+ppp_user = 62212937510
+ppp_passwd = 135246
+ppp_vlan_id = 104
+ppp_vlan_addr = 50:51:52:53:54:a4
+ppp_vlan_parent = em1
+[105]
+ppp_id = 105
+ppp_addr = 50:51:52:53:00:05
+ppp_user = 62212938301
+ppp_passwd = 135246
+ppp_vlan_id = 105
+ppp_vlan_addr = 50:51:52:53:54:a5
+ppp_vlan_parent = em1
+[106]
+ppp_id = 106
+ppp_addr = 50:51:52:53:00:06
+ppp_user = 62212938302
+ppp_passwd = 135246
+ppp_vlan_id = 106
+ppp_vlan_addr = 50:51:52:53:54:a6
+ppp_vlan_parent = em1
+[107]
+ppp_id = 107
+ppp_addr = 50:51:52:53:00:07
+ppp_user = 62212938406
+ppp_passwd = 135246
+ppp_vlan_id = 107
+ppp_vlan_addr = 50:51:52:53:54:a7
+ppp_vlan_parent = em1
+[108]
+ppp_id = 108
+ppp_addr = 50:51:52:53:00:08
+ppp_user = 62212938304
+ppp_passwd = 135246
+ppp_vlan_id = 108
+ppp_vlan_addr = 50:51:52:53:54:a8
+ppp_vlan_parent = em1
+[109]
+ppp_id = 109
+ppp_addr = 50:51:52:53:00:09
+ppp_user = 62212938402
+ppp_passwd = 135246
+ppp_vlan_id = 109
+ppp_vlan_addr = 50:51:52:53:54:a9
+ppp_vlan_parent = em1
+[110]
+ppp_id = 110
+ppp_addr = 50:51:52:53:00:0a
+ppp_user = 62212938407
+ppp_passwd = 135246
+ppp_vlan_id = 110
+ppp_vlan_addr = 50:51:52:53:54:aa
+ppp_vlan_parent = em1
