@@ -15,12 +15,14 @@ import __version__
 import pppoe_dial
 import agent_api
 from net_flow import NetFlow
+from biztype.biztype import BizType
 
 from daemon import Daemon
 
 _u_id = uuid.uuid1()
 _ppp_config_dir = os.getcwd() + "/conf/"
 _ppp_config_path = os.getcwd() + "/conf/ppp_configs"
+_env_config_path = os.getcwd() + "/conf/env_configs"
 
 _pppoe_flag = True
 _net_flow_flag = True
@@ -59,6 +61,13 @@ def net_flow_run():
     net.on_timer()
     time.sleep(0.01)
 
+def biz_install_run():
+  log.logger.info("biz install start...")
+  biz = BizType(_u_id, _ppp_config_path, _env_config_path)
+  while True:
+    biz.on_timer()
+    time.sleep(1)
+
 def handle_cmd(cmd):
   global _pppoe_flag, _net_flow_flag
   if cmd == "charge":
@@ -67,6 +76,9 @@ def handle_cmd(cmd):
   elif cmd == "dial":
     _net_flow_flag = False
     _pppoe_flag = True
+  elif cmd == "none":
+    _net_flow_flag = False
+    _pppoe_flag = False
   elif cmd == "all":
     _net_flow_flag = True
     _pppoe_flag = True
@@ -88,6 +100,8 @@ def agent_run():
     net_flow_th = threading.Thread(target=net_flow_run)
     net_flow_th.start()
 
+  biz_install_th = threading.Thread(target=biz_install_run)
+
   while True:
     agent_api.load_ppp_config(_u_id, _ppp_config_path)
     if _pppoe_flag and not pppoe_th.is_alive():
@@ -97,6 +111,10 @@ def agent_run():
     if _net_flow_flag and not net_flow_th.is_alive():
       log.logger.info("net_flow thread not alive. restart now.")
       net_flow_th.start()
+
+    if not biz_install_th.is_alive():
+      log.logger.info("biz_install thread not alive. restart now.")
+      biz_install_th.start()
 
     time.sleep(20*60)
 
@@ -114,15 +132,16 @@ if __name__ == "__main__":
   parser.add_option("-v", action="store_true", dest="verbose", help="show version")
   parser.add_option("-s", dest="signal", help="send signal process: start, stop or restart")
   parser.add_option("-u", dest="u_id", help="node unique indentification")
-  parser.add_option("-c", dest="cmd", help="command :all, charge, dial. default is all")
+  parser.add_option("-c", dest="cmd", help="command :all, none, charge, dial. default is all")
   (options, args)  =  parser.parse_args()
   if options.verbose:
     version()
-  if options.u_id:
-    _u_id = options.u_id
-  if options.cmd:
-    handle_cmd(options.cmd)
-  if options.signal:
-    handle_signal(options.signal)
   else:
-    agent_run()
+    if options.u_id:
+      _u_id = options.u_id
+    if options.cmd:
+      handle_cmd(options.cmd)
+    if options.signal:
+      handle_signal(options.signal)
+    else:
+      agent_run()
