@@ -1,0 +1,8 @@
+[user]
+provider=10
+[cpu]
+threads=10
+[ssd]
+/Users/qingzhangecko/storage1=/storage1
+[hdd]
+/Users/qingzhangecko/storage3=/storage3
