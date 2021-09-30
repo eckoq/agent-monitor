@@ -27,6 +27,9 @@ _env_config_path = os.getcwd() + "/conf/env_configs"
 _pppoe_flag = True
 _net_flow_flag = True
 
+if "PATH" in os.environ and "/usr/sbin" not in os.environ["PATH"]:
+  os.environ["PATH"] += ":/usr/sbin"
+
 try:
   if not os.path.exists(_ppp_config_dir):
     os.makedirs(_ppp_config_dir)
