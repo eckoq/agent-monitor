@@ -519,7 +519,7 @@ class PPPoE(Interface, ShellCmd):
 
   def create_ppp_interface(self):
     # kill exist pppoe proccess
-    cmd = "ps -ef |grep {} |grep -v grep  |awk '{{print $2}}' |xargs kill -9".format(self.p_ppp_name)
+    cmd = "ps -ef |grep {} |grep -v grep | grep -E 'pppd|pppoe' |awk '{{print $2}}' |xargs kill -9".format(self.p_ppp_name)
     self.run_shell(cmd)
 
     cmd = "{} {}".format(self._pppoe_connect, self.config.file_name)
@@ -530,7 +530,7 @@ class PPPoE(Interface, ShellCmd):
 
   def down_ppp_interface(self):
     # kill exist pppoe proccess
-    cmd = "ps -ef |grep {} |grep -v grep  |awk '{{print $2}}' |xargs kill -9".format(self.p_ppp_name)
+    cmd = "ps -ef |grep {} |grep -v grep | grep -E 'pppd|pppoe' |awk '{{print $2}}' |xargs kill -9".format(self.p_ppp_name)
     self.run_shell(cmd)
 
   def create_route(self):
